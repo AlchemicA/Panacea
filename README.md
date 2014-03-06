@@ -1,4 +1,4 @@
-elementale
+panacea
 ==========
 
-Lightweight CSS framework
+
