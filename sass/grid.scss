@@ -1,0 +1,110 @@
+/*! grid.css v0.2.1 | MIT License | git.io/alchemica */
+
+// Grid builder mixin
+@mixin grid($prefix, $columns, $gutter) {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+  overflow: visible !important;
+  clear: both;
+
+  @include clearfix();
+
+  & & {
+    margin-left: -1%;
+  }
+
+  $row:   1;
+  $cell:  (100% - ($gutter * ($columns + 1))) / $columns;
+  $rows:  ();
+
+  @while $row <= $columns {
+    $pos:   1;
+    $list:  false;
+
+    @while $pos <= ($columns + 1 - $row) {
+      $class: unquote('.#{$prefix}-#{$pos}-#{$row}');
+
+      @if not $list {
+        $list:  ($class);
+      }
+      @else {
+        $list:  append($list, $class, comma);
+      }
+
+      @if not index($rows, $class) {
+        $rows:  append($rows, $class, comma);
+      }
+
+      $pos: $pos + 1;
+    }
+
+    #{$list} {
+      width: ($cell * $row) + ($gutter * ($row - 1));
+    }
+
+    $row: $row + 1;
+  }
+
+  $pos:   1;
+
+  @while $pos <= $columns {
+    $row:   1;
+    $list:  false;
+
+    @while $row <= $columns {
+      @if $pos <= ($columns + 1 - $row) {
+        $class: unquote('.#{$prefix}-#{$pos}-#{$row}');
+
+        @if not $list {
+          $list:  ($class);
+        }
+        @else {
+          $list:  append($list, $class, comma);
+        }
+      }
+
+      $row: $row + 1;
+    }
+
+    #{$list} {
+      margin-left: ($cell * ($pos - 1) + ($gutter * $pos));
+    }
+
+    $pos: $pos + 1;
+  }
+
+  $inputs:  ();
+
+  @each $row in $rows {
+    $inputs:  append($inputs, unquote('#{$row} input'));
+  }
+
+  #{$rows} {
+    float: left;
+    margin-right: -100%;
+    position: relative;
+    min-height: 1px; // Prevent columns from collapsing when empty
+  }
+
+  #{$inputs} {
+    width: 100% - ($gutter * 2);
+  }
+}
+
+// Clearfix mixin
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.grid {
+  @include grid(small, 6, 1%);
+}

@@ -1,0 +1,96 @@
+/*! typography.css v0.2.1 | MIT License | git.io/alchemica */
+
+@import "common.scss";
+
+@mixin typography($font: sans-serif, $size: 16px, $line: 26px, $headers: (26px, 24px, 22px, 20px, 18px, 16px)) {
+  html {
+    font-family: $font;
+    font-size: 62.5%; // 10px, easier 1.0rem = 10px
+    line-height: 1;
+  }
+
+  body {
+    @include font-size($size);
+    line-height: $line / $size;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-rendering: optimizeLegibility; // helps kerning in some browsers
+    font-weight: normal;
+  }
+
+  @for $i from 1 through 6 {
+    $header:  nth($headers, $i);
+
+    h#{$i},
+    h#{$i} a {
+      @include font-size($header);
+      line-height: $line / strip-units($header);
+    }
+
+    @if ($line - $header) > 0 {
+      h#{$i} {
+        margin-bottom: $line - $header;
+        margin-bottom: rem(strip-units($line / $header), 10);
+      }
+    }
+  }
+
+  @if ($line - $size) > 0 {
+    p {
+      margin-bottom: $line - $size;
+      margin-bottom: rem(strip-units($line - $size), 10);
+    }
+  }
+
+  sup,
+  sub {
+    font-size: 80%;
+    line-height: 0;
+  }
+  sup {
+    vertical-align: super;
+  }
+  sub {
+    vertical-align: sub;
+  }
+
+  code {
+    font-family: Consolas, "Courier New", Courier, mono;
+  }
+
+  ul,
+  ol{
+    margin-left: 20px;
+  }
+
+  blockquote {
+    display: block;
+    padding: 10px;
+    font-family: "Georgia", serif;
+    font-style: italic;
+    background: #EEE;
+    background: rgba(0,0,0,.05);
+    border-left: 4px solid;
+    border-left-color: #CCC;
+    border-left-color: rgba(0,0,0,.1);
+  }
+  blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  pre {
+    font-family: Consolas, "Courier New", Courier, mono;
+    padding: 10px 20px;
+  }
+}
+
+@include typography();

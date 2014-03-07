@@ -1,0 +1,311 @@
+
+// Font-size
+@mixin font-size($size: 16px) {
+  @if unit($size) != "px" {
+    @warn "Assuming #{$size} to be in pixels";
+
+    $size:  $size / 1px;
+  }
+
+  font-size: $size;
+  font-size: rem(strip-units($size), 10);
+}
+
+// Background gradient
+@mixin background-gradient($start, $end) {
+  background-color: $start;
+
+  background-image: -webkit-gradient(linear, left top, left bottom, from($start), to($end));
+  background-image: -webkit-linear-gradient(top, $start, $end);
+  background-image:    -moz-linear-gradient(top, $start, $end);
+  background-image:     -ms-linear-gradient(top, $start, $end);
+  background-image:      -o-linear-gradient(top, $start, $end);
+  background-image:         linear-gradient(top, $start, $end);
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$start}', endColorStr='#{$end}');
+}
+
+// Background size
+@mixin background-size($width: 100%, $height: 100%) {
+  -webkit-background-size: $width $height;
+     -moz-background-size: $width $height;
+          background-size: $width $height;
+}
+
+// Background clip
+@mixin background-clip($clip) {
+  @if $clip == padding {
+    -webkit-background-clip: padding;
+       -moz-background-clip: padding;
+            background-clip: padding-box;
+  }
+  @else if $clip == border {
+    -webkit-background-clip: border;
+       -moz-background-clip: border;
+            background-clip: border-box;
+  }
+}
+
+// Border radius
+@mixin border-radius($topleft, $topright: false, $bottomright: false, $bottomleft: false) {
+  @if not $topright and not $bottomright and not $bottomleft {
+    $radius:  $topleft;
+
+    -webkit-border-radius: $radius;
+       -moz-border-radius: $radius;
+            border-radius: $radius;
+  }
+  @else {
+    -webkit-border-top-left-radius: $topleft;
+        -moz-border-radius-topleft: $topleft;
+            border-top-left-radius: $topleft;
+
+    -webkit-border-top-right-radius: $topright;
+        -moz-border-radius-topright: $topright;
+            border-top-right-radius: $topright;
+
+    -webkit-border-bottom-right-radius: $bottomright;
+        -moz-border-radius-bottomright: $bottomright;
+            border-bottom-right-radius: $bottomright;
+
+    -webkit-border-bottom-left-radius: $bottomleft;
+        -moz-border-radius-bottomleft: $bottomleft;
+            border-bottom-left-radius: $bottomleft;
+  }
+}
+
+// Box
+@mixin box($orient: horizontal, $pack: center, $align: center) {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+
+  -webkit-box-orient: $orient;
+     -moz-box-orient: $orient;
+          box-orient: $orient;
+
+  -webkit-box-pack: $pack;
+     -moz-box-pack: $pack;
+          box-pack: $pack;
+
+  -webkit-box-align: $align;
+     -moz-box-align: $align;
+          box-align: $align;
+}
+
+// Box shadow
+@mixin box-shadow($color, $x: 0, $y: 0, $blur: 0, $spread: 0, $inset: false) {
+  @if $color == none {
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+  }
+  @else {
+    @if $inset {
+      -webkit-box-shadow: inset $x $y $blur $spread $color;
+         -moz-box-shadow: inset $x $y $blur $spread $color;
+              box-shadow: inset $x $y $blur $spread $color;
+    }
+    @else {
+      -webkit-box-shadow: $x $y $blur $spread $color;
+         -moz-box-shadow: $x $y $blur $spread $color;
+              box-shadow: $x $y $blur $spread $color;
+    }
+  }
+}
+
+// Box sizing
+@mixin box-sizing($type: border-box) {
+  -webkit-box-sizing: $type;
+     -moz-box-sizing: $type;
+          box-sizing: $type;
+}
+
+// Columns
+@mixin columns($count: 3, $gap: 10) {
+  -webkit-column-count: $count;
+     -moz-column-count: $count;
+          column-count: $count;
+
+  -webkit-column-gap: $gap;
+     -moz-column-gap: $gap;
+          column-gap: $gap;
+}
+
+// Double borders
+@mixin double-borders($one, $two, $radius: 0) {
+  border: 1px solid $one;
+
+  @include border-radius($radius);
+
+  -webkit-box-shadow: 0 0 0 1px $two;
+     -moz-box-shadow: 0 0 0 1px $two;
+          box-shadow: 0 0 0 1px $two;
+}
+
+// Triple borders
+@mixin triple-borders($one, $two, $three, $radius: 0) {
+  border: 1px solid $one;
+
+  @include border-radius($radius);
+
+  -webkit-box-shadow: 0 0 0 1px $two, 0 0 0 2px $three;
+     -moz-box-shadow: 0 0 0 1px $two, 0 0 0 2px $three;
+          box-shadow: 0 0 0 1px $two, 0 0 0 2px $three;
+}
+
+// Flex
+@mixin flex($value: 1) {
+  -webkit-box-flex: $value;
+     -moz-box-flex: $value;
+          box-flex: $value;
+}
+
+// Flip
+@mixin flip($scale: -1) {
+             filter: FlipH;
+  -webkit-transform: scaleX($scale);
+     -moz-transform: scaleX($scale);
+       -o-transform: scaleX($scale);
+         -ms-filter: "FlipH";
+          transform: scaleX($scale);
+}
+
+// Font Face
+@mixin font-face($family, $eot, $woff, $ttf) {
+  font-family: $family;
+  src: url($eot)  format('eot'),
+       url($woff) format('woff'),
+       url($ttf)  format('truetype');
+}
+
+// Opacity
+@mixin opacity($opacity) {
+          filter: alpha(opacity=($opacity * 100));
+  -khtml-opacity: $opacity;
+    -moz-opacity: $opacity;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" + ($opacity * 100) + ")";
+         opacity: $opacity;
+}
+
+// Outline radious
+@mixin outline-radius($radius) {
+  -webkit-outline-radius: $radius;
+     -moz-outline-radius: $radius;
+          outline-radius: $radius;
+}
+
+// Resize
+@mixin resize($direction: both) {
+  -webkit-resize: $direction;
+     -moz-resize: $direction;
+          resize: $direction;
+}
+
+// Rotate
+@mixin rotate($deg: 0, $m11: 0, $m12: 0, $m21: 0, $m22: 0) {
+             filter: progid:DXImageTransform.Microsoft.Matrix(M11=#{$m11}, M12=#{$m12}, M21=#{$m21}, M22=#{$m22}, sizingMethod='auto expand');
+  -webkit-transform: rotate($deg + deg);
+     -moz-transform: rotate($deg + deg);
+      -ms-transform: rotate($deg + deg);
+       -o-transform: rotate($deg + deg);
+          transform: rotate($deg + deg);
+               zoom: 1;
+}
+
+// Text-shadow
+@mixin text-shadow($color, $x: 0, $y: 0, $blur: 0) {
+  text-shadow: $x $y $blur $color;
+}
+
+// Transform
+@mixin transform($params) {
+  -webkit-transform: $params;
+     -moz-transform: $params;
+          transform: $params;
+}
+
+// Transition
+@mixin transition($what: all, $length: 1s, $easing: ease-in-out) {
+  -webkit-transition: $what $length $easing;
+     -moz-transition: $what $length $easing;
+      -ms-transition: $what $length $easing;
+       -o-transition: $what $length $easing;
+          transition: $what $length $easing;
+}
+
+// Strip units
+@function strip-units($num) {
+  @return $num / ($num * 0 + 1);
+}
+
+// Convert pixels to rem
+@function rem($values, $baseline) {
+  // Convert the baseline into rems
+  $baseline:  $baseline / 1rem;
+
+  // If there is only one (numeric) value, return the value line for it.
+  @if type-of($values) == "number" {
+    $return:  $values / $baseline;
+
+    @return $return;
+  }
+  @else {
+    // Create an empty list that we can dump values into
+    $return:  ();
+
+    @each $value in $values {
+      // If the value is zero or a string or a color, return unchanged input
+      @if $value == 0 or type-of($value) == "string" or type-of($value) == "color" {
+        $return:  append($return, $value);
+      }
+      @else {
+        $return:  append($return, $value / $baseline);
+      }
+    }
+
+    @return $return;
+  }
+}
+
+// Prepend a value to the top of a list
+@function prepend($list, $value) {
+  @return join($value, $list);
+}
+
+// Replace a value in a list
+@function replace($list, $old, $new, $recursive: false) {
+  $result:  ();
+
+  @for $i from 1 through length($list) {
+    @if type-of(nth($list, $i)) == list and $recursive {
+      $result: append($result, replace(nth($list, $i), $old, $new, $recursive));
+    }
+    @else {
+      @if nth($list, $i) == $old {
+        $result: append($result, $new);
+      }
+      @else {
+        $result: append($result, nth($list, $i));
+      }
+    }
+  }
+
+  @return $result;
+}
+
+// Remove a value in a list
+@function remove($list, $value, $recursive: false) {
+  $result: ();
+
+  @for $i from 1 through length($list) {
+    @if type-of(nth($list, $i)) == list and $recursive {
+      $result: append($result, remove(nth($list, $i), $value, $recursive));
+    }
+    @else if nth($list, $i) != $value {
+      $result: append($result, nth($list, $i));
+    }
+  }
+
+  @return $result;
+}
