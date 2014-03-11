@@ -104,7 +104,3 @@
     clear: both;
   }
 }
-
-.grid {
-  @include grid(small, 6, 1%);
-}
