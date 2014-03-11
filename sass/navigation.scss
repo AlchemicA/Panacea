@@ -1,23 +1,46 @@
 .navigation ul,
-.navigation ul li {
+.navigation ol,
+.navigation ul li,
+.navigation ol li {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
 }
-.navigation > ul.horizontal {
+.navigation > ul.horizontal,
+.navigation > ol.horizontal,
+.navigation > ul.horizontal li,
+.navigation > ol.horizontal li {
   display: inline-block;
   // IE7
   *display: inline;
   zoom: 1;
   vertical-align: middle;
 }
-.navigation > ul.horizontal li {
-  display: inline-block;
-  // IE7
-  *display: inline;
-  zoom: 1;
-  vertical-align: middle;
-}
-.navigation > ul.horizontal li li {
+.navigation > ul.horizontal li li,
+.navigation > ol.horizontal li li {
   display: block;
+}
+.navigation .toggle {
+	// We let the theme decide to hide it when not necessary
+	display: block;
+  position: relative;
+  float: right;
+  width: 40px;
+  height: 40px;
+  // Base64 encoded image "..images/navigation.png" with IE7 fallback
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAAH7+Yj7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKtJREFUeNpiYMACGEHEfyBgIAtg1Q4QQPjRfyggz0IU7QABRJozYboZgQCbCSBxJmJNZGKgNgAIIOojgr4GidHGM0RbPRQ8AxBAQyimkQMJOVCIyTEkR8mAupBpNFIGHwAIoFFE5WSDnESITTboSYbqOYVpNFJGI2U0UkYjhS4AIMBG0SgYdE05XCUPrpKFgg4vUU3B0YJmFIxmktFMMgpGM8loJhkFo4CmAABz6IAU+MUGeAAAAABJRU5ErkJggg==);
+  *background-image: url("../images/navigation.png");
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+// Legacy support for IE6
+.navigation > ul.horizontal,
+.navigation > ol.horizontal,
+.navigation > ul.horizontal li,
+.navigation > ol.horizontal li {
+  display: inline;
+}
+* html .navigation .toggle {
+	background-image: url("../images/navigation.png");
 }
