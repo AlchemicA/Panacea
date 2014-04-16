@@ -5,7 +5,7 @@
 @mixin typography($font: sans-serif, $size: 16px, $line: 26px, $headers: (26px, 24px, 22px, 20px, 18px, 16px)) {
   html {
     font-family: $font;
-    font-size: 62.5%; // 10px, easier 1.0rem = 10px
+    font-size: 62.5%; // 10px, easier baseline (1.0rem = 10px)
     line-height: 1;
   }
 
@@ -27,13 +27,17 @@
     font-weight: normal;
   }
 
-  @for $i from 1 through 6 {
+  @if length($headers) not 6 {
+    @warn "Headers count mismatch, should be 6";
+  }
+
+  @for $i from 1 through length($headers) {
     $header:  nth($headers, $i);
 
     h#{$i},
     h#{$i} a {
       @include font-size($header);
-      line-height: $line / strip-units($header);
+      line-height: strip-units($line / $header);
     }
 
     @if ($line - $header) > 0 {
@@ -49,6 +53,36 @@
       margin-bottom: $line - $size;
       margin-bottom: rem(strip-units($line - $size), 10);
     }
+  }
+
+  h1.center,
+  h2.center,
+  h3.center,
+  h4.center,
+  h5.center,
+  h6.center,
+  p.center {
+    text-align: center;
+  }
+
+  h1.right,
+  h2.right,
+  h3.right,
+  h4.right,
+  h5.right,
+  h6.right,
+  p.right {
+    text-align: right;
+  }
+
+  h1.justify,
+  h2.justify,
+  h3.justify,
+  h4.justify,
+  h5.justify,
+  h6.justify,
+  p.justify {
+    text-align: justify;
   }
 
   sup,

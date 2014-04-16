@@ -12,7 +12,18 @@
   @include clearfix();
 
   & & {
-    margin-left: -1%;
+    margin-left: 0 - $gutter;
+  }
+
+  .cell {
+    @if $columns > 0 {
+      float: left;
+    }
+    margin-right: -100%;
+    position: relative;
+    min-height: 1px; // Prevent columns from collapsing when empty
+    width: 100% - ($gutter * 2);
+    margin-left: $gutter;
   }
 
   $row:   1;
@@ -20,77 +31,50 @@
   $rows:  ();
 
   @while $row <= $columns {
-    $pos:   1;
-    $list:  false;
+    $pos:   false;
+    $size:  false;
+    $last:  $columns + 1 - $row;
 
-    @while $pos <= ($columns + 1 - $row) {
-      $class: unquote('.#{$prefix}-#{$pos}-#{$row}');
+    @for $i from 1 through $last {
+      $class: unquote('.#{$prefix}-#{$i}-#{$row}');
 
-      @if not $list {
-        $list:  ($class);
+      @if not $size {
+        $size:  ($class);
       }
       @else {
-        $list:  append($list, $class, comma);
+        $size:  append($size, $class, comma);
       }
 
-      @if not index($rows, $class) {
-        $rows:  append($rows, $class, comma);
-      }
+      $class: unquote('.#{$prefix}-#{$row}-#{$i}');
 
-      $pos: $pos + 1;
+      @if not $pos {
+        $pos:  ($class);
+      }
+      @else {
+        $pos:  append($pos, $class, comma);
+      }
     }
-
-    #{$list} {
+    // Cell width
+    #{$size} {
       width: ($cell * $row) + ($gutter * ($row - 1));
     }
-
-    $row: $row + 1;
-  }
-
-  $pos:   1;
-
-  @while $pos <= $columns {
-    $row:   1;
-    $list:  false;
-
-    @while $row <= $columns {
-      @if $pos <= ($columns + 1 - $row) {
-        $class: unquote('.#{$prefix}-#{$pos}-#{$row}');
-
-        @if not $list {
-          $list:  ($class);
-        }
-        @else {
-          $list:  append($list, $class, comma);
-        }
-      }
-
-      $row: $row + 1;
+    // Cell position
+    #{$pos} {
+      margin-left: ($cell * ($row - 1) + ($gutter * $row));
     }
 
-    #{$list} {
-      margin-left: ($cell * ($pos - 1) + ($gutter * $pos));
+    // Looping
+    $row:   $row + 1;
+  }
+
+  @if $columns > 0 {
+    // Line break
+    .#{$prefix}-break {
+      clear: left;
     }
-
-    $pos: $pos + 1;
   }
 
-  $inputs:  ();
 
-  @each $row in $rows {
-    $inputs:  append($inputs, unquote('#{$row} input'));
-  }
-
-  #{$rows} {
-    float: left;
-    margin-right: -100%;
-    position: relative;
-    min-height: 1px; // Prevent columns from collapsing when empty
-  }
-
-  #{$inputs} {
-    width: 100% - ($gutter * 2);
-  }
 }
 
 // Clearfix mixin

@@ -172,11 +172,12 @@
 }
 
 // Font Face
-@mixin font-face($family, $eot, $woff, $ttf) {
+@mixin font-face($family, $eot, $woff, $ttf, $svg) {
   font-family: $family;
   src: url($eot)  format('eot'),
        url($woff) format('woff'),
-       url($ttf)  format('truetype');
+       url($ttf)  format('truetype'),
+       url($svg)  format('svg');
 }
 
 // Opacity
