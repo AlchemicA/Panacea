@@ -30,6 +30,7 @@ input[type="checkbox"] {
 
 button,
 a.button,
+input.button,
 input[type="reset"],
 input[type="submit"],
 input[type="button"] {
@@ -146,7 +147,8 @@ select[disabled],
 select[disabled] option,
 select[disabled] optgroup,
 textarea[disabled],
-a.button_disabled {
+a.disabled,
+input.disabled {
   color: #888;
   cursor: default;
 
