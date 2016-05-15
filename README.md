@@ -1,6 +1,8 @@
 panacea
 ==========
 
+Status: **inactive** 
+
 Our very basic CSS responsive framework.
 
 Tested or going to be on:
